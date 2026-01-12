@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "LoanCalculator"
 include(":app")
 include(":injector")
+include(":mvi_core")
