@@ -1,0 +1,3 @@
+package dsokolov.ru.loan_calculator.injector
+
+interface ComponentApi
