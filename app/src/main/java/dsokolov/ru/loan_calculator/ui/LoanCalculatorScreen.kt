@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelFactoryHolder
-import dsokolov.ru.loan_calculator.mvi.state.LoanCalculatorState
+import dsokolov.ru.loan_calculator.presentation.LoanCalculatorUiState
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorViewModel
 import dsokolov.ru.loan_calculator.ui.theme.GRID_2
 import dsokolov.ru.loan_calculator.ui.theme.GRID_8
@@ -31,9 +31,9 @@ fun LoanCalculatorScreen(
     Column(Modifier.padding(GRID_2.dp)) {
         val uiState by loanCalculatorViewModel.stateFlow.collectAsStateWithLifecycle()
         when (uiState) {
-            is LoanCalculatorState.Empty -> Unit
-            is LoanCalculatorState.Loading -> Loading()
-            is LoanCalculatorState.FilledLoanCalculatorState -> Success()
+            is LoanCalculatorUiState.Empty -> Unit
+            is LoanCalculatorUiState.Loading -> Loading()
+            is LoanCalculatorUiState.FilledLoanCalculatorState -> Success()
         }
     }
 }

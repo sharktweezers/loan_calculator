@@ -27,6 +27,6 @@ class LoanCalculatorReducer(
     }
 
     fun getInitialCommand(): List<Command> {
-        return emptyList()
+        return listOf(Command.GetInitFromPreferences)
     }
 }
