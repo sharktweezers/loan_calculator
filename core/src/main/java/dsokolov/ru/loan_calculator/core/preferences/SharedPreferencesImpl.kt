@@ -3,6 +3,7 @@ package dsokolov.ru.loan_calculator.core.preferences
 import android.content.Context
 import com.google.gson.Gson
 import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorPrefer
+import dsokolov.ru.loan_calculator.core.use_cases.GetInitLoanCalculatorUseCase.Companion.MIN_RANGE_AMOUNT
 import javax.inject.Inject
 
 class SharedPreferencesImpl @Inject internal constructor(
@@ -27,7 +28,7 @@ class SharedPreferencesImpl @Inject internal constructor(
             return gson.fromJson(it, LoanCalculatorPrefer::class.java)
         }
 
-        return LoanCalculatorPrefer(0, 0)
+        return LoanCalculatorPrefer(MIN_RANGE_AMOUNT, 0)
     }
 
     private companion object {

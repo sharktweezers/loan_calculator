@@ -50,4 +50,12 @@ class LoanCalculatorViewModel @Inject constructor(
             .flowOn(Dispatchers.Default)
             .launchIn(viewModelScope)
     }
+
+    fun onAmountSliderChanged(value: Float) = launchUnit {
+
+    }
+
+    fun onDaysPeriodSliderChanged(value: Float) = launchUnit {
+
+    }
 }

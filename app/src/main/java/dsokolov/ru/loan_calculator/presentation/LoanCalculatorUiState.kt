@@ -9,6 +9,8 @@ sealed interface LoanCalculatorUiState {
     data object Loading : LoanCalculatorUiState
     @Immutable
     data class FilledLoanCalculatorState(
+        val amount: Int,
+        val daysPeriod: Int,
         val title : String,
         val amountTitle: String,
         val amountValue: String,

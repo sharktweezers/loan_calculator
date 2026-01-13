@@ -16,6 +16,8 @@ class LoanCalculatorStateTransformer(
         is LoanCalculatorState.Loading -> LoanCalculatorUiState.Loading
         is LoanCalculatorState.FilledLoanCalculatorState -> {
             LoanCalculatorUiState.FilledLoanCalculatorState(
+                amount = mviState.amount,
+                daysPeriod = mviState.daysPeriod,
                 title = stringProvider.getString(R.string.loan_calculator_screen_title),
                 amountTitle = stringProvider.getString(R.string.loan_calculator_amount_title),
                 amountValue = AmountFormatter.format(
