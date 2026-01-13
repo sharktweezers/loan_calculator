@@ -24,6 +24,7 @@ fun LoanCalculatorScreen(
     Column(Modifier.padding(GRID_2.dp)) {
         val uiState by loanCalculatorViewModel.stateFlow.collectAsStateWithLifecycle()
         when (uiState) {
+            is LoanCalculatorState.Empty -> Unit
             is LoanCalculatorState.Loading -> Loading()
             is LoanCalculatorState.Error -> Error()
             is LoanCalculatorState.Success -> Success()

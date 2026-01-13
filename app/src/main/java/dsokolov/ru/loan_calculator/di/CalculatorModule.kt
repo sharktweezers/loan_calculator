@@ -1,63 +1,39 @@
 package dsokolov.ru.loan_calculator.di
 
 import dagger.Module
-import dsokolov.ru.loan_calculator.injector.scope.PerFeature
+import dagger.Provides
+import dsokolov.ru.loan_calculator.mvi.factory.LoanCalculatorStoreFactory
+import dsokolov.ru.loan_calculator.mvi.handler.LoanCalculatorCommandHandler
+import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorDomainReducer
+import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorReducer
+import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorUiReducer
 
 @Module
 class CalculatorModule {
-
-    /*@Provides
-    @PerFeature
-    fun provideCountriesUiReducer() = CountriesUiReducer()
+    @Provides
+    fun provideLoanCalculatorUiReducer() = LoanCalculatorUiReducer()
 
     @Provides
-    @PerFeature
-    fun provideCountriesDomainReducer() = CountriesDomainReducer()
+    fun provideLoanCalculatorDomainReducer() = LoanCalculatorDomainReducer()
 
     @Provides
-    @PerFeature
-    fun provideCountriesReducer(
-        uiReducer: CountriesUiReducer,
-        domainReducer: CountriesDomainReducer,
-    ) = CountriesReducer(uiReducer, domainReducer)
-
-    @Provides
-    fun provideCountriesCommandHandler(
-        avosendRepository: AvosendRepository,
-        appConfigRepository: AppConfigRepository,
-    ): CountriesCommandHandler {
-        return CountriesCommandHandler(avosendRepository, appConfigRepository)
+    fun provideLoanCalculatorReducer(
+        uiReducer: LoanCalculatorUiReducer,
+        domainReducer: LoanCalculatorDomainReducer,
+    ): LoanCalculatorReducer {
+        return LoanCalculatorReducer(uiReducer, domainReducer)
     }
 
     @Provides
-    fun providesCountriesTransitionListener(): CountriesTransitionListener {
-        return CountriesTransitionListener()
+    fun provideLoanCalculatorCommandHandler(): LoanCalculatorCommandHandler {
+        return LoanCalculatorCommandHandler()
     }
 
     @Provides
-    fun providesCountriesStoreFactory(
-        reducer: CountriesReducer,
-        commandHandler: CountriesCommandHandler,
-        transitionListener: CountriesTransitionListener
-    ): CountriesStoreFactory {
-        return CountriesStoreFactory(reducer, commandHandler, transitionListener)
+    fun provideLoanCalculatorStoreFactory(
+        reducer: LoanCalculatorReducer,
+        commandHandler: LoanCalculatorCommandHandler,
+    ): LoanCalculatorStoreFactory {
+        return LoanCalculatorStoreFactory(reducer, commandHandler)
     }
-
-    @Provides
-    @PerFeature
-    fun provideCountriesUiConverter(stringProvider: StringProvider): CountriesUiConverter {
-        return CountriesUiConverter(stringProvider)
-    }
-
-    @Provides
-    @PerFeature
-    fun provideCountriesUiStateFactory(converter: CountriesUiConverter): CountriesUiStateFactory {
-        return CountriesUiStateFactory(converter)
-    }
-
-    @Provides
-    @PerFeature
-    fun provideCountriesUiSideEffectHandler(): CountriesUiSideEffectHandler {
-        return CountriesUiSideEffectHandler()
-    }*/
 }

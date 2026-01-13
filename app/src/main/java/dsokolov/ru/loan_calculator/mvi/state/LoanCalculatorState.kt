@@ -4,6 +4,8 @@ import androidx.compose.runtime.Immutable
 
 sealed interface LoanCalculatorState {
     @Immutable
+    data object Empty : LoanCalculatorState
+    @Immutable
     data object Loading : LoanCalculatorState
     @Immutable
     data class Error(
