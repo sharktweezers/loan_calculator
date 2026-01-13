@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 class LoanCalculatorViewModel @Inject constructor(
     storeFactory: LoanCalculatorStoreFactory,
+    stateTransformer: LoanCalculationStateTransformer,
 ) : BaseMviViewModel() {
     private val _stateFlow = MutableStateFlow<LoanCalculatorState>(LoanCalculatorState.Empty)
     val stateFlow = _stateFlow.asStateFlow()

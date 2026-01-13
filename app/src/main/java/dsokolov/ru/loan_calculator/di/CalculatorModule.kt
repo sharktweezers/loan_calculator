@@ -2,11 +2,13 @@ package dsokolov.ru.loan_calculator.di
 
 import dagger.Module
 import dagger.Provides
+import dsokolov.ru.loan_calculator.core.StringProvider
 import dsokolov.ru.loan_calculator.mvi.factory.LoanCalculatorStoreFactory
 import dsokolov.ru.loan_calculator.mvi.handler.LoanCalculatorCommandHandler
 import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorDomainReducer
 import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorReducer
 import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorUiReducer
+import dsokolov.ru.loan_calculator.presentation.LoanCalculationStateTransformer
 
 @Module
 class CalculatorModule {
@@ -36,4 +38,11 @@ class CalculatorModule {
     ): LoanCalculatorStoreFactory {
         return LoanCalculatorStoreFactory(reducer, commandHandler)
     }
+
+    @Provides
+    fun provideLoanCalculationStateTransformer(
+        stringProvider: StringProvider
+    ) = LoanCalculationStateTransformer(
+        stringProvider,
+    )
 }
