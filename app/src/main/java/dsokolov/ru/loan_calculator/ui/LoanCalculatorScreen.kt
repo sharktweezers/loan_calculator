@@ -9,18 +9,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import dsokolov.ru.loan_calculator.presentation.LoanCalculatorUiState
+import androidx.lifecycle.viewmodel.compose.viewModel
+import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelFactoryHolder
+import dsokolov.ru.loan_calculator.mvi.state.LoanCalculatorState
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorViewModel
 import dsokolov.ru.loan_calculator.ui.theme.GRID_2
 
 @Composable
-fun LoanCalculatorScreen(loanCalculatorViewModel: LoanCalculatorViewModel) {
+fun LoanCalculatorScreen(
+    loanCalculatorViewModel: LoanCalculatorViewModel = viewModel(
+        factory = ViewModelFactoryHolder.store.viewModelFactory
+    )
+) {
     Column(Modifier.padding(GRID_2.dp)) {
         val uiState by loanCalculatorViewModel.stateFlow.collectAsStateWithLifecycle()
         when (uiState) {
-            is LoanCalculatorUiState.Loading -> Loading()
-            is LoanCalculatorUiState.Error -> Error()
-            is LoanCalculatorUiState.Success -> Success()
+            is LoanCalculatorState.Loading -> Loading()
+            is LoanCalculatorState.Error -> Error()
+            is LoanCalculatorState.Success -> Success()
         }
     }
 }

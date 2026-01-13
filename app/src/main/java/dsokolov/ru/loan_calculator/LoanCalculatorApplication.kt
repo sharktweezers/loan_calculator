@@ -3,6 +3,7 @@ package dsokolov.ru.loan_calculator
 import android.app.Application
 import dsokolov.ru.loan_calculator.di.AppDeps
 import dsokolov.ru.loan_calculator.di.Di
+import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelFactoryHolder
 
 class LoanCalculatorApplication : Application() {
     override fun onCreate() {
@@ -14,8 +15,9 @@ class LoanCalculatorApplication : Application() {
         val appDependencies = object : AppDeps {
             override val application: LoanCalculatorApplication
                 get() = this@LoanCalculatorApplication
-
         }
+
         Di.init(appDependencies)
+        Di.getComponent().inject(ViewModelFactoryHolder.store)
     }
 }

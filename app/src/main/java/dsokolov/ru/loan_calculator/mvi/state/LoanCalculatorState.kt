@@ -1,15 +1,15 @@
-package dsokolov.ru.loan_calculator.presentation
+package dsokolov.ru.loan_calculator.mvi.state
 
 import androidx.compose.runtime.Immutable
 
-sealed interface LoanCalculatorUiState {
+sealed interface LoanCalculatorState {
     @Immutable
-    data object Loading : LoanCalculatorUiState
+    data object Loading : LoanCalculatorState
     @Immutable
     data class Error(
         val loanSum: Int,
         val daysPeriod: Int,
-    ) : LoanCalculatorUiState
+    ) : LoanCalculatorState
     @Immutable
     data class Success(
         val loanSum: Int,
@@ -18,5 +18,5 @@ sealed interface LoanCalculatorUiState {
         val refundedAmount: Double?,
         val repaymentDate: String?,
         val isCalculation: Boolean,
-    ) : LoanCalculatorUiState
+    ) : LoanCalculatorState
 }

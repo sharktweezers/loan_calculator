@@ -1,4 +1,4 @@
-package dsokolov.ru.loan_calculator.di.viewmodel
+package dsokolov.ru.loan_calculator.injector.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dagger.MapKey

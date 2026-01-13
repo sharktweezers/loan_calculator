@@ -1,21 +1,15 @@
 package dsokolov.ru.loan_calculator.di
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import dsokolov.ru.loan_calculator.di.viewmodel.DaggerViewModelFactory
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import dsokolov.ru.loan_calculator.di.viewmodel.ViewModelKey
+import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelKey
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorViewModel
+import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelFactoryModule
 
-@Module
+@Module(includes = [ViewModelFactoryModule::class])
 abstract class BindsViewModelModule {
-    @Binds
-    abstract fun bindViewModelFactory(
-        viewModelFactory: DaggerViewModelFactory,
-    ): ViewModelProvider.Factory
-
     @Binds
     @IntoMap
     @ViewModelKey(LoanCalculatorViewModel::class)
