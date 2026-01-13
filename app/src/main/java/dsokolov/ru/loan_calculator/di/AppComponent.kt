@@ -1,11 +1,16 @@
 package dsokolov.ru.loan_calculator.di
 
 import dagger.Component
+import dsokolov.ru.loan_calculator.core.di.ExternalCoreModule
 import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelFactoryStore
 import javax.inject.Singleton
 
 @Component(
-    modules = [BindsViewModelModule::class, CalculatorModule::class, CoreModule::class],
+    modules = [AppModule::class,
+        BindsViewModelModule::class,
+        CalculatorModule::class,
+        ExternalCoreModule::class
+    ],
     dependencies = [AppDeps::class],
 )
 @Singleton

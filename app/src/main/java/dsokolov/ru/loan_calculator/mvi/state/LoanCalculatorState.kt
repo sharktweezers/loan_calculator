@@ -16,7 +16,7 @@ sealed interface LoanCalculatorState {
         val stepCountDaysPeriod: Int,
         val isTransaction: Boolean,
         val interestRate: Double?,
-        val refundedAmount: Double?,
+        val loanRepaymentAmount: Double?,
         val repaymentDate: String?,
         val errorMsg: String?,
     ) : LoanCalculatorState

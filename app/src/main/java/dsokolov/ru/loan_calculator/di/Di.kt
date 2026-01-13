@@ -1,5 +1,6 @@
 package dsokolov.ru.loan_calculator.di
 
+import dsokolov.ru.loan_calculator.di.AppComponent
 import dsokolov.ru.loan_calculator.injector.AbstractComponentHolder
 import javax.inject.Inject
 
