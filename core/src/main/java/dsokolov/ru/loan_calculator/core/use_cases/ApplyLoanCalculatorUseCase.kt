@@ -3,7 +3,7 @@ package dsokolov.ru.loan_calculator.core.use_cases
 import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
 import dsokolov.ru.loan_calculator.core.domain.ro.LoanCalculationRo
 import dsokolov.ru.loan_calculator.core.repository.LoanCalculatorRepository
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,7 +15,8 @@ class ApplyLoanCalculatorUseCase @Inject constructor(
         amount: Int,
         period: Int,
         totalRepayment: Int,
-    ): Flow<LoanCalculatorTransaction> {
+    ): LoanCalculatorTransaction {
+        delay(3000L) // имитация долгой загрузки по сети
         return loanCalculatorRepository.postLoanCalculator(
             ro = LoanCalculationRo(
                 amount = amount,

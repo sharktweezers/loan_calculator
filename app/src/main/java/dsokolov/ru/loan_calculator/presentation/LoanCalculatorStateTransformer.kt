@@ -3,6 +3,7 @@ package dsokolov.ru.loan_calculator.presentation
 import dsokolov.ru.loan_calculator.core.string_provider.StringProvider
 import dsokolov.ru.loan_calculator.mvi.state.LoanCalculatorState
 import dsokolov.ru.loan_calculator.R
+import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
 import dsokolov.ru.loan_calculator.core.ext.PERCENT
 import dsokolov.ru.loan_calculator.core.ext.SPACE
 import dsokolov.ru.loan_calculator.core.ext.USD
@@ -11,7 +12,7 @@ import dsokolov.ru.loan_calculator.core.format.AmountFormatter
 class LoanCalculatorStateTransformer(
     private val stringProvider: StringProvider
 ) {
-    fun transform(mviState: LoanCalculatorState) = when(mviState) {
+    fun transform(mviState: LoanCalculatorState) = when (mviState) {
         is LoanCalculatorState.Empty -> LoanCalculatorUiState.Empty
         is LoanCalculatorState.Loading -> LoanCalculatorUiState.Loading
         is LoanCalculatorState.FilledLoanCalculatorState -> {
@@ -34,7 +35,14 @@ class LoanCalculatorStateTransformer(
                 minRangeDaysPeriod = mviState.minRangeDaysPeriod,
                 maxRangeDaysPeriod = mviState.maxRangeDaysPeriod,
                 stepCountDaysPeriod = mviState.stepCountDaysPeriod,
-                transaction = mviState.transaction,
+                transaction = when (val newTransaction = mviState.transaction) {
+                    is LoanCalculatorTransaction.Error -> newTransaction.copy(
+                        error = stringProvider.getString(R.string.loan_calculator_error_apply)
+                    )
+
+                    is LoanCalculatorTransaction.Loading -> newTransaction
+                    is LoanCalculatorTransaction.Success -> newTransaction
+                },
                 interestRateTitle = stringProvider.getString(R.string.loan_calculator_loan_interest_rate_title),
                 interestRateValue = AmountFormatter.format(
                     amount = mviState.interestRate,

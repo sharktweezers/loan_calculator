@@ -6,9 +6,7 @@ import dsokolov.ru.loan_calculator.core.use_cases.SaveLoanCalculatorPreferUseCas
 import dsokolov.ru.loan_calculator.mvi_core.DefaultCommandHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
@@ -56,19 +54,15 @@ class LoanCalculatorCommandHandler(
         command: Command.Apply
     ): Flow<Event> {
         return flow {
-            delay(2000L) // Имитация отправки транзакции
             emit(
                 applyLoanCalculatorUseCase.invoke(
                     amount = command.amount,
                     period = command.period,
-                    totalRepayment = command.totalRepayment
+                    totalRepayment = command.totalRepayment,
                 )
             )
         }
             .flowOn(Dispatchers.IO)
-            .flatMapLatest {
-                it
-            }
             .map {
                 Event.ReceiveLoanCalculatorTransaction(it)
             }
