@@ -1,4 +1,4 @@
-package dsokolov.ru.loan_calculator.core.factory
+package dsokolov.ru.loan_calculator.core.mapper
 
 import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculator
 import dsokolov.ru.loan_calculator.core.ext.EMPTY

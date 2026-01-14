@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":injector"))
     implementation(project(":mvi_core"))
     implementation(project(":core"))
+    implementation(project(":remote"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

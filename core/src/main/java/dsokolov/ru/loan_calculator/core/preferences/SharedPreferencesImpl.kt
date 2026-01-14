@@ -3,7 +3,8 @@ package dsokolov.ru.loan_calculator.core.preferences
 import android.content.Context
 import com.google.gson.Gson
 import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorPrefer
-import dsokolov.ru.loan_calculator.core.use_cases.GetInitLoanCalculatorUseCase.Companion.MIN_RANGE_AMOUNT
+import dsokolov.ru.loan_calculator.core.mapper.LoanCalculatorFactory.MIN_RANGE_AMOUNT
+import dsokolov.ru.loan_calculator.core.mapper.LoanCalculatorFactory.MIN_RANGE_DAYS_PERIOD
 import javax.inject.Inject
 
 class SharedPreferencesImpl @Inject internal constructor(
@@ -19,7 +20,7 @@ class SharedPreferencesImpl @Inject internal constructor(
     override suspend fun putLoanCalculatorPrefer(loanCalculatorPrefer: LoanCalculatorPrefer) {
         val gson = Gson()
         val jsonString = gson.toJson(loanCalculatorPrefer)
-        editor.putString(KEY_LOAN_CALCULATOR_PREFER, jsonString)
+        editor.putString(KEY_LOAN_CALCULATOR_PREFER, jsonString).commit()
     }
 
     override suspend fun getLoanCalculatorPrefer(): LoanCalculatorPrefer {
@@ -28,7 +29,7 @@ class SharedPreferencesImpl @Inject internal constructor(
             return gson.fromJson(it, LoanCalculatorPrefer::class.java)
         }
 
-        return LoanCalculatorPrefer(MIN_RANGE_AMOUNT, 0)
+        return LoanCalculatorPrefer(MIN_RANGE_AMOUNT, MIN_RANGE_DAYS_PERIOD)
     }
 
     private companion object {

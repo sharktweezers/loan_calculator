@@ -123,7 +123,6 @@ private fun FilledScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AmountBlock(
     state: LoanCalculatorUiState.FilledLoanCalculatorState,
@@ -149,31 +148,6 @@ private fun AmountBlock(
     Slider(
         value = state.amount.toFloat(),
         onValueChange = { onAmountSliderChanged.invoke(it) },
-        thumb = {
-            Box(
-                modifier = Modifier
-                    .size(GRID_4.dp) // Set the desired size
-                    .clip(RoundedCornerShape(percent = 50)) // Make it a circle or any shape
-                    .background(MaterialTheme.colorScheme.primary)
-            )
-        },
-        // Custom Track Composable
-        track = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(GRID_2.dp)
-                //.clip(MaterialTheme.shapes.medium) // Apply a shape to the track
-                //.background(MaterialTheme.colorScheme.primaryContainer)
-            ) {
-                Box(
-                    Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primary)
-                )
-            }
-        },
         steps = state.maxRangeAmount - state.minRangeAmount,
         valueRange = state.minRangeAmount.toFloat()..state.maxRangeAmount.toFloat(),
     )
@@ -196,7 +170,6 @@ private fun AmountBlock(
     Spacer(Modifier.height(GRID_6.dp))
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PeriodBlock(
     state: LoanCalculatorUiState.FilledLoanCalculatorState,
@@ -222,32 +195,7 @@ private fun PeriodBlock(
     Slider(
         value = state.daysPeriod.toFloat(),
         onValueChange = { onDaysPeriodSliderChanged.invoke(it) },
-        thumb = {
-            Box(
-                modifier = Modifier
-                    .size(GRID_4.dp) // Set the desired size
-                    .clip(RoundedCornerShape(percent = 50)) // Make it a circle or any shape
-                    .background(MaterialTheme.colorScheme.primary)
-            )
-        },
-        // Custom Track Composable
-        track = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(GRID_2.dp)
-                //.clip(MaterialTheme.shapes.medium) // Apply a shape to the track
-                //.background(MaterialTheme.colorScheme.primaryContainer)
-            ) {
-                Box(
-                    Modifier
-                        .fillMaxHeight()
-                        .fillMaxWidth()
-                        .background(MaterialTheme.colorScheme.primary)
-                )
-            }
-        },
-        steps = state.stepCountDaysPeriod,
+        steps = 2,//state.stepCountDaysPeriod,
         valueRange = state.minRangeDaysPeriod.toFloat()..state.maxRangeDaysPeriod.toFloat(),
     )
     Row(

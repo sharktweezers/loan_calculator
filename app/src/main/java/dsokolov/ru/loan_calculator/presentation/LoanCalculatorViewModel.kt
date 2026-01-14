@@ -52,11 +52,11 @@ class LoanCalculatorViewModel @Inject constructor(
     }
 
     fun onAmountSliderChanged(value: Float) = launchUnit {
-
+        uiEvent.emit(LoanCalculatorEvent.LoanCalculatorEventUi.AmountChanged(value))
     }
 
     fun onDaysPeriodSliderChanged(value: Float) = launchUnit {
-
+        uiEvent.emit(LoanCalculatorEvent.LoanCalculatorEventUi.PeriodChanged(value))
     }
 
     fun onApplyClick() = launchUnit {

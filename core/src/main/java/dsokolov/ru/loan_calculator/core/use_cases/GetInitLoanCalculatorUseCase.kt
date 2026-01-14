@@ -1,7 +1,7 @@
 package dsokolov.ru.loan_calculator.core.use_cases
 
 import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculator
-import dsokolov.ru.loan_calculator.core.factory.LoanCalculatorFactory
+import dsokolov.ru.loan_calculator.core.mapper.LoanCalculatorFactory
 import dsokolov.ru.loan_calculator.core.preferences.SharedPreferences
 import javax.inject.Inject
 

@@ -4,7 +4,8 @@ import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculator
 
 sealed interface LoanCalculatorEvent {
     sealed interface LoanCalculatorEventUi : LoanCalculatorEvent {
-
+        class AmountChanged(val amount: Float) : LoanCalculatorEventUi
+        class PeriodChanged(val period: Float) : LoanCalculatorEventUi
     }
 
     sealed interface LoanCalculatorEventDomain : LoanCalculatorEvent {
