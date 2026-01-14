@@ -1,4 +1,4 @@
-package dsokolov.ru.loan_calculator.core.preferences
+package dsokolov.ru.loan_calculator.remote.preferences
 
 import android.content.Context
 import com.google.gson.Gson

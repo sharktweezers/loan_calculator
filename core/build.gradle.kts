@@ -41,7 +41,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.google.gson)
 
     // dagger2
     implementation(libs.dagger)
