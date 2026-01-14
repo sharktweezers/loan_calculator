@@ -1,4 +1,4 @@
-package dsokolov.ru.loan_calculator.remote.models
+package dsokolov.ru.loan_calculator.core.domain.ro
 
 class LoanCalculationRo(
     val amount: Int,

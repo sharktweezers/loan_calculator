@@ -1,6 +1,7 @@
 package dsokolov.ru.loan_calculator.presentation
 
 import androidx.compose.runtime.Immutable
+import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
 
 sealed interface LoanCalculatorUiState {
     @Immutable
@@ -21,7 +22,7 @@ sealed interface LoanCalculatorUiState {
         val minRangeDaysPeriod: Int,
         val maxRangeDaysPeriod: Int,
         val stepCountDaysPeriod: Int,
-        val isTransaction: Boolean,
+        val transaction: LoanCalculatorTransaction,
         val interestRateTitle: String,
         val interestRateValue: String,
         val loanRepaymentAmountTitle: String,

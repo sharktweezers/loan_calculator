@@ -1,7 +1,7 @@
 package dsokolov.ru.loan_calculator.remote.network.loan_calculator
 
 import dsokolov.ru.loan_calculator.remote.models.LoanCalculationDto
-import dsokolov.ru.loan_calculator.remote.models.LoanCalculationRo
+import dsokolov.ru.loan_calculator.core.domain.ro.LoanCalculationRo
 import kotlinx.coroutines.flow.Flow
 import retrofit2.http.Body
 import retrofit2.http.POST

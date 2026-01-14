@@ -34,7 +34,7 @@ class LoanCalculatorStateTransformer(
                 minRangeDaysPeriod = mviState.minRangeDaysPeriod,
                 maxRangeDaysPeriod = mviState.maxRangeDaysPeriod,
                 stepCountDaysPeriod = mviState.stepCountDaysPeriod,
-                isTransaction = mviState.isTransaction,
+                transaction = mviState.transaction,
                 interestRateTitle = stringProvider.getString(R.string.loan_calculator_loan_interest_rate_title),
                 interestRateValue = AmountFormatter.format(
                     amount = mviState.interestRate,

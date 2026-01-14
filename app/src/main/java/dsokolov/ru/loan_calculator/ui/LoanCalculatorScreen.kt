@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
 import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelFactoryHolder
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorUiState
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorViewModel
@@ -79,6 +80,10 @@ private fun FilledScreen(
     onDaysPeriodSliderChanged: (Float) -> Unit,
     onApplyClick: () -> Unit
 ) {
+    if (state.transaction == LoanCalculatorTransaction.Loading) {
+        Loading()
+    }
+
     Column(
         Modifier
             .padding(GRID_2.dp)
@@ -295,7 +300,7 @@ fun FilledPreview() {
             minRangeDaysPeriod = 0,
             maxRangeDaysPeriod = 28,
             stepCountDaysPeriod = 4,
-            isTransaction = false,
+            transaction = LoanCalculatorTransaction.Success,
             interestRateTitle = "interestRateTitle",
             interestRateValue = "interestRateValue",
             loanRepaymentAmountTitle = "loanRepaymentAmountTitle",

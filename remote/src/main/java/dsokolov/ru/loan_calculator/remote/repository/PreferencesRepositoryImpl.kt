@@ -4,7 +4,9 @@ import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorPrefer
 import dsokolov.ru.loan_calculator.core.repository.PreferencesRepository
 import dsokolov.ru.loan_calculator.remote.preferences.SharedPreferences
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class PreferencesRepositoryImpl @Inject internal constructor(
     private val sharedPreferences: SharedPreferences,
 ) : PreferencesRepository {

@@ -3,9 +3,12 @@ package dsokolov.ru.loan_calculator.core.mapper
 import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculator
 import dsokolov.ru.loan_calculator.core.ext.EMPTY
 import dsokolov.ru.loan_calculator.core.format.LoanCalculatorDateFormatter
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object LoanCalculatorFactory {
-    fun createLoanCalculator(
+@Singleton
+class LoanCalculatorMapper @Inject constructor() {
+    fun map(
         amount: Int,
         period: Int,
     ): LoanCalculator {
@@ -30,10 +33,12 @@ object LoanCalculatorFactory {
         )
     }
 
-    const val MIN_RANGE_AMOUNT = 5000
-    const val MIN_RANGE_DAYS_PERIOD = 0
-    internal const val MAX_RANGE_AMOUNT = 50000
-    internal const val MAX_RANGE_DAYS_PERIOD = 28
-    internal const val STEP_COUNT_DAYS_PERIOD = 4
-    internal const val INTEREST_RATE = 15.0
+    companion object {
+        const val MIN_RANGE_AMOUNT = 5000
+        const val MIN_RANGE_DAYS_PERIOD = 0
+        internal const val MAX_RANGE_AMOUNT = 50000
+        internal const val MAX_RANGE_DAYS_PERIOD = 28
+        internal const val STEP_COUNT_DAYS_PERIOD = 4
+        internal const val INTEREST_RATE = 15.0
+    }
 }

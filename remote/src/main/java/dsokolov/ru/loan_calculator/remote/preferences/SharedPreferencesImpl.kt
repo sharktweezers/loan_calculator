@@ -3,10 +3,12 @@ package dsokolov.ru.loan_calculator.remote.preferences
 import android.content.Context
 import com.google.gson.Gson
 import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorPrefer
-import dsokolov.ru.loan_calculator.core.mapper.LoanCalculatorFactory.MIN_RANGE_AMOUNT
-import dsokolov.ru.loan_calculator.core.mapper.LoanCalculatorFactory.MIN_RANGE_DAYS_PERIOD
+import dsokolov.ru.loan_calculator.core.mapper.LoanCalculatorMapper.Companion.MIN_RANGE_AMOUNT
+import dsokolov.ru.loan_calculator.core.mapper.LoanCalculatorMapper.Companion.MIN_RANGE_DAYS_PERIOD
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class SharedPreferencesImpl @Inject internal constructor(
     appContext: Context
 ) : SharedPreferences {

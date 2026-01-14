@@ -1,5 +1,6 @@
 package dsokolov.ru.loan_calculator.mvi.reducer
 
+import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
 import dsokolov.ru.loan_calculator.mvi_core.ReducerDsl
 import dsokolov.ru.loan_calculator.mvi_core.Update
 import dsokolov.ru.loan_calculator.mvi.command.LoanCalculatorCommand as Command
@@ -13,11 +14,12 @@ class LoanCalculatorUiReducer() : ReducerDsl<UiEvent, State, SideEffect, Command
         event: UiEvent
     ): Update<State, SideEffect, Command> {
         val filledState = state as? State.FilledLoanCalculatorState ?: return nothing()
-        if (filledState.isTransaction) return nothing()
+        if (filledState.transaction == LoanCalculatorTransaction.Loading) return nothing()
 
         return when (event) {
             is UiEvent.AmountChanged -> reduceAmountChanged(filledState, event)
             is UiEvent.PeriodChanged -> reducePeriodChanged(filledState, event)
+            is UiEvent.Apply -> reduceApply(state)
         }
     }
 
@@ -47,6 +49,26 @@ class LoanCalculatorUiReducer() : ReducerDsl<UiEvent, State, SideEffect, Command
             Command.UpdateLoanCalculatorPreference(
                 amount = state.amount,
                 period = newPeriod,
+            )
+        }
+
+        return buildUpdate(state)
+    }
+
+    private fun reduceApply(
+        state: State.FilledLoanCalculatorState,
+    ): Update<State, SideEffect, Command> {
+        val loanRepaymentAmount = state.loanRepaymentAmount ?: return nothing()
+
+        updateState {
+            state.copy(transaction = LoanCalculatorTransaction.Loading)
+        }
+
+        command {
+            Command.Apply(
+                amount = state.amount,
+                period = state.daysPeriod,
+                totalRepayment = loanRepaymentAmount.toInt(),
             )
         }
 

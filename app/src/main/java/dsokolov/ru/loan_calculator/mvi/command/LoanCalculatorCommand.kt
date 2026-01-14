@@ -8,5 +8,9 @@ sealed interface LoanCalculatorCommand {
         val period: Int,
     ) : LoanCalculatorCommand
 
-    class Apply() : LoanCalculatorCommand
+    class Apply(
+        val amount: Int,
+        val period: Int,
+        val totalRepayment: Int,
+    ) : LoanCalculatorCommand
 }

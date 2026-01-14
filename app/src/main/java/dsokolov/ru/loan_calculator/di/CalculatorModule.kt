@@ -3,6 +3,7 @@ package dsokolov.ru.loan_calculator.di
 import dagger.Module
 import dagger.Provides
 import dsokolov.ru.loan_calculator.core.string_provider.StringProvider
+import dsokolov.ru.loan_calculator.core.use_cases.ApplyLoanCalculatorUseCase
 import dsokolov.ru.loan_calculator.core.use_cases.GetInitLoanCalculatorUseCase
 import dsokolov.ru.loan_calculator.core.use_cases.SaveLoanCalculatorPreferUseCase
 import dsokolov.ru.loan_calculator.mvi.factory.LoanCalculatorStoreFactory
@@ -32,10 +33,12 @@ class CalculatorModule {
     fun provideLoanCalculatorCommandHandler(
         saveLoanCalculatorPreferUseCase: SaveLoanCalculatorPreferUseCase,
         getInitLoanCalculatorUseCase: GetInitLoanCalculatorUseCase,
+        applyLoanCalculatorUseCase: ApplyLoanCalculatorUseCase,
     ): LoanCalculatorCommandHandler {
         return LoanCalculatorCommandHandler(
             saveLoanCalculatorPreferUseCase = saveLoanCalculatorPreferUseCase,
             getInitLoanCalculatorUseCase = getInitLoanCalculatorUseCase,
+            applyLoanCalculatorUseCase = applyLoanCalculatorUseCase,
         )
     }
 

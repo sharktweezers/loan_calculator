@@ -1,5 +1,6 @@
 package dsokolov.ru.loan_calculator.mvi.reducer
 
+import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
 import dsokolov.ru.loan_calculator.mvi_core.ReducerDsl
 import dsokolov.ru.loan_calculator.mvi_core.Update
 import dsokolov.ru.loan_calculator.mvi.command.LoanCalculatorCommand as Command
@@ -14,6 +15,9 @@ class LoanCalculatorDomainReducer() : ReducerDsl<DomainEvent, State, SideEffect,
     ): Update<State, SideEffect, Command> {
         return when (event) {
             is DomainEvent.ReceivedLoanCalculatorState -> reduceReceivedLoanCalculator(state, event)
+            is DomainEvent.ReceiveLoanCalculatorTransaction -> reduceLoanCalculatorTransaction(
+                state, event
+            )
         }
     }
 
@@ -30,7 +34,7 @@ class LoanCalculatorDomainReducer() : ReducerDsl<DomainEvent, State, SideEffect,
                 minRangeDaysPeriod = event.domainState.minRangeDaysPeriod,
                 maxRangeDaysPeriod = event.domainState.maxRangeDaysPeriod,
                 stepCountDaysPeriod = event.domainState.stepCountDaysPeriod,
-                isTransaction = false,
+                transaction = LoanCalculatorTransaction.Success,
                 interestRate = event.domainState.interestRate,
                 loanRepaymentAmount = event.domainState.loanRepaymentAmount,
                 repaymentDate = event.domainState.repaymentDate,
@@ -39,5 +43,15 @@ class LoanCalculatorDomainReducer() : ReducerDsl<DomainEvent, State, SideEffect,
         }
 
         return buildUpdate(state)
+    }
+
+    private fun reduceLoanCalculatorTransaction(
+        state: State,
+        event: DomainEvent.ReceiveLoanCalculatorTransaction
+    ): Update<State, SideEffect, Command> {
+        val filledState = state as? State.FilledLoanCalculatorState ?: return nothing()
+        updateState { filledState.copy(transaction = event.transaction) }
+
+        return buildUpdate(filledState)
     }
 }

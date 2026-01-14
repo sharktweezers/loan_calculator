@@ -60,6 +60,6 @@ class LoanCalculatorViewModel @Inject constructor(
     }
 
     fun onApplyClick() = launchUnit {
-
+        uiThrottledEvent.emit(LoanCalculatorEvent.LoanCalculatorEventUi.Apply)
     }
 }

@@ -1,5 +1,7 @@
 package dsokolov.ru.loan_calculator.mvi.state
 
+import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
+
 sealed interface LoanCalculatorState {
 
     data object Empty : LoanCalculatorState
@@ -14,7 +16,7 @@ sealed interface LoanCalculatorState {
         val minRangeDaysPeriod: Int,
         val maxRangeDaysPeriod: Int,
         val stepCountDaysPeriod: Int,
-        val isTransaction: Boolean,
+        val transaction: LoanCalculatorTransaction,
         val interestRate: Double?,
         val loanRepaymentAmount: Double?,
         val repaymentDate: String?,
