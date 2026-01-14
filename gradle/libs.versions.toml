@@ -15,7 +15,9 @@ targetSdk = "36"
 compileSdk = "36"
 appcompat = "1.7.1"
 material = "1.13.0"
-gson = "2.11.0"
+gson = "2.13.2"
+retrofit = "2.10.0"
+okhttp_logging = "4.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -41,6 +43,9 @@ dagger-compiler = { group = "com.google.dagger", name = "dagger-compiler", versi
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 google-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp_logging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

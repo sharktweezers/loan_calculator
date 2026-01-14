@@ -1,21 +1,35 @@
 package dsokolov.ru.loan_calculator.remote.di
 
-import dagger.Binds
+import android.content.Context
 import dagger.Module
-import dsokolov.ru.loan_calculator.core.repository.PreferencesRepository
-import dsokolov.ru.loan_calculator.remote.preferences.SharedPreferences
-import dsokolov.ru.loan_calculator.remote.preferences.SharedPreferencesImpl
-import dsokolov.ru.loan_calculator.remote.repository.PreferencesRepositoryImpl
+import dagger.Provides
+import dsokolov.ru.loan_calculator.remote.network.LOAN_CALCULATOR_BASE_URL
+import dsokolov.ru.loan_calculator.remote.network.loan_calculator.LoanCalculatorApi
+import dsokolov.ru.loan_calculator.remote.network.loan_calculator.LoanCalculatorMockInterceptor
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
-abstract class ExternalRemoteModule {
-    @Binds
-    abstract fun bindSharedPreferences(
-        stringProviderImpl: SharedPreferencesImpl,
-    ): SharedPreferences
+class ExternalRemoteModule {
+    @Provides
+    @Singleton
+    fun provideLoanCalculatorRetrofit(
+        appContext: Context,
+    ): Retrofit {
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(LoanCalculatorMockInterceptor(appContext))
+            .build()
 
-    @Binds
-    abstract fun bindPreferencesRepository(
-        stringProviderImpl: PreferencesRepositoryImpl,
-    ): PreferencesRepository
+        return Retrofit.Builder()
+            .baseUrl(LOAN_CALCULATOR_BASE_URL)
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoanCalculatorApi(retrofitInstance: Retrofit): LoanCalculatorApi {
+        return retrofitInstance.create(LoanCalculatorApi::class.java)
+    }
 }

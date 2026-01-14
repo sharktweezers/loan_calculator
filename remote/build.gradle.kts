@@ -45,7 +45,10 @@ dependencies {
     implementation(libs.dagger)
     kapt(libs.dagger.compiler)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    // Core Retrofit and converters
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+
+    // OkHttp logging interceptor
+    implementation(libs.okhttp.logging.interceptor)
 }
