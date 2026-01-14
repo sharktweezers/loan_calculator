@@ -58,4 +58,8 @@ class LoanCalculatorViewModel @Inject constructor(
     fun onDaysPeriodSliderChanged(value: Float) = launchUnit {
 
     }
+
+    fun onApplyClick() = launchUnit {
+
+    }
 }

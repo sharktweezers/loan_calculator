@@ -31,6 +31,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelFactoryHolder
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorUiState
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorViewModel
+import dsokolov.ru.loan_calculator.ui.theme.GRID_1
+import dsokolov.ru.loan_calculator.ui.theme.GRID_1_5
 import dsokolov.ru.loan_calculator.ui.theme.GRID_2
 import dsokolov.ru.loan_calculator.ui.theme.GRID_4
 import dsokolov.ru.loan_calculator.ui.theme.GRID_6
@@ -50,6 +52,7 @@ fun LoanCalculatorScreen(
             state = state,
             onAmountSliderChanged = loanCalculatorViewModel::onAmountSliderChanged,
             onDaysPeriodSliderChanged = loanCalculatorViewModel::onDaysPeriodSliderChanged,
+            onApplyClick = loanCalculatorViewModel::onApplyClick,
         )
     }
 }
@@ -74,6 +77,7 @@ private fun FilledScreen(
     state: LoanCalculatorUiState.FilledLoanCalculatorState,
     onAmountSliderChanged: (Float) -> Unit,
     onDaysPeriodSliderChanged: (Float) -> Unit,
+    onApplyClick: () -> Unit
 ) {
     Column(
         Modifier
@@ -82,159 +86,248 @@ private fun FilledScreen(
     ) {
         Text(
             text = state.title,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            style = MaterialTheme.typography.headlineLarge,
+            maxLines = 1,
+            modifier = Modifier.align(Alignment.CenterHorizontally),
         )
         Spacer(Modifier.height(GRID_4.dp))
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = state.amountTitle)
-            Text(text = state.amountValue)
-        }
-        Spacer(Modifier.height(GRID_4.dp))
-        Slider(
-            value = state.amount.toFloat(),
-            onValueChange = { onAmountSliderChanged.invoke(it) },
-            thumb = {
-                Box(
-                    modifier = Modifier
-                        .size(GRID_4.dp) // Set the desired size
-                        .clip(RoundedCornerShape(percent = 50)) // Make it a circle or any shape
-                        .background(MaterialTheme.colorScheme.primary)
-                )
-            },
-            // Custom Track Composable
-            track = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(GRID_2.dp)
-                        //.clip(MaterialTheme.shapes.medium) // Apply a shape to the track
-                        //.background(MaterialTheme.colorScheme.primaryContainer)
-                ) {
-                    Box(
-                        Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.primary)
-                    )
-                }
-            },
-            steps = state.maxRangeAmount - state.minRangeAmount,
-            valueRange = state.minRangeAmount.toFloat()..state.maxRangeAmount.toFloat(),
+
+        AmountBlock(
+            state = state,
+            onAmountSliderChanged = onAmountSliderChanged,
         )
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = state.minRangeAmount.toString())
-            Text(text = state.maxRangeAmount.toString())
-        }
-        Spacer(Modifier.height(GRID_6.dp))
+
+        PeriodBlock(
+            state = state,
+            onDaysPeriodSliderChanged = onDaysPeriodSliderChanged,
+        )
+
+        LoanInfoBlock(state = state)
 
         Row(
             Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(text = state.daysPeriodTitle)
-            Text(text = state.daysPeriodValue)
-        }
-        Spacer(Modifier.height(GRID_4.dp))
-        Slider(
-            value = state.daysPeriod.toFloat(),
-            onValueChange = { onDaysPeriodSliderChanged.invoke(it) },
-            thumb = {
-                Box(
-                    modifier = Modifier
-                        .size(GRID_4.dp) // Set the desired size
-                        .clip(RoundedCornerShape(percent = 50)) // Make it a circle or any shape
-                        .background(MaterialTheme.colorScheme.primary)
-                )
-            },
-            // Custom Track Composable
-            track = {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(GRID_2.dp)
-                    //.clip(MaterialTheme.shapes.medium) // Apply a shape to the track
-                    //.background(MaterialTheme.colorScheme.primaryContainer)
-                ) {
-                    Box(
-                        Modifier
-                            .fillMaxHeight()
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colorScheme.primary)
-                    )
-                }
-            },
-            steps = state.stepCountDaysPeriod,
-            valueRange = state.minRangeDaysPeriod.toFloat()..state.maxRangeDaysPeriod.toFloat(),
-        )
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = state.minRangeDaysPeriod.toString())
-            Text(text = state.maxRangeDaysPeriod.toString())
-        }
-        Spacer(Modifier.height(GRID_6.dp))
-
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = state.interestRateTitle)
-            Text(text = state.interestRateValue)
-        }
-        Spacer(Modifier.height(GRID_4.dp))
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = state.loanRepaymentAmountTitle)
-            Text(text = state.loanRepaymentAmountValue)
-        }
-        Spacer(Modifier.height(GRID_4.dp))
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = state.repaymentDateTitle)
-            Text(text = state.repaymentDateValue)
-        }
-        Spacer(Modifier.height(GRID_4.dp))
-
-        /*Button(
-            onClick ={},
-            modifier = Modifier.align(Alignment.CenterHorizontally
+            Button(
+                onClick = { onApplyClick.invoke() },
+                shape = RoundedCornerShape(GRID_1_5.dp)
             ) {
-            Text(
-                text = state.title,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        }*/
+                Text(
+                    text = state.applyBtnTitle,
+                    maxLines = 1,
+                    style = MaterialTheme.typography.headlineLarge,
+                )
+            }
+        }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AmountBlock(
+    state: LoanCalculatorUiState.FilledLoanCalculatorState,
+    onAmountSliderChanged: (Float) -> Unit,
+) {
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = state.amountTitle,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Text(
+            text = state.amountValue,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineLarge,
+        )
+    }
+    Spacer(Modifier.height(GRID_1.dp))
+    Slider(
+        value = state.amount.toFloat(),
+        onValueChange = { onAmountSliderChanged.invoke(it) },
+        thumb = {
+            Box(
+                modifier = Modifier
+                    .size(GRID_4.dp) // Set the desired size
+                    .clip(RoundedCornerShape(percent = 50)) // Make it a circle or any shape
+                    .background(MaterialTheme.colorScheme.primary)
+            )
+        },
+        // Custom Track Composable
+        track = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(GRID_2.dp)
+                //.clip(MaterialTheme.shapes.medium) // Apply a shape to the track
+                //.background(MaterialTheme.colorScheme.primaryContainer)
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.primary)
+                )
+            }
+        },
+        steps = state.maxRangeAmount - state.minRangeAmount,
+        valueRange = state.minRangeAmount.toFloat()..state.maxRangeAmount.toFloat(),
+    )
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Text(
+            text = state.minRangeAmount.toString(),
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Text(
+            text = state.maxRangeAmount.toString(),
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineSmall,
+        )
+    }
+    Spacer(Modifier.height(GRID_6.dp))
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun PeriodBlock(
+    state: LoanCalculatorUiState.FilledLoanCalculatorState,
+    onDaysPeriodSliderChanged: (Float) -> Unit,
+) {
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = state.daysPeriodTitle,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Text(
+            text = state.daysPeriodValue,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineLarge,
+        )
+    }
+    Spacer(Modifier.height(GRID_4.dp))
+    Slider(
+        value = state.daysPeriod.toFloat(),
+        onValueChange = { onDaysPeriodSliderChanged.invoke(it) },
+        thumb = {
+            Box(
+                modifier = Modifier
+                    .size(GRID_4.dp) // Set the desired size
+                    .clip(RoundedCornerShape(percent = 50)) // Make it a circle or any shape
+                    .background(MaterialTheme.colorScheme.primary)
+            )
+        },
+        // Custom Track Composable
+        track = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(GRID_2.dp)
+                //.clip(MaterialTheme.shapes.medium) // Apply a shape to the track
+                //.background(MaterialTheme.colorScheme.primaryContainer)
+            ) {
+                Box(
+                    Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth()
+                        .background(MaterialTheme.colorScheme.primary)
+                )
+            }
+        },
+        steps = state.stepCountDaysPeriod,
+        valueRange = state.minRangeDaysPeriod.toFloat()..state.maxRangeDaysPeriod.toFloat(),
+    )
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = state.minRangeDaysPeriod.toString(),
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineSmall,
+        )
+        Text(
+            text = state.maxRangeDaysPeriod.toString(),
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineSmall,
+        )
+    }
+    Spacer(Modifier.height(GRID_6.dp))
+}
+
+@Composable
+fun LoanInfoBlock(state: LoanCalculatorUiState.FilledLoanCalculatorState) {
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = state.interestRateTitle,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Text(
+            text = state.interestRateValue,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineLarge,
+        )
+    }
+    Spacer(Modifier.height(GRID_4.dp))
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = state.loanRepaymentAmountTitle,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Text(
+            text = state.loanRepaymentAmountValue,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineLarge,
+        )
+    }
+    Spacer(Modifier.height(GRID_4.dp))
+    Row(
+        Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = state.repaymentDateTitle,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineMedium,
+        )
+        Text(
+            text = state.repaymentDateValue,
+            maxLines = 1,
+            style = MaterialTheme.typography.headlineLarge,
+        )
+    }
+    Spacer(Modifier.height(GRID_4.dp))
 }
 
 @Preview(showBackground = true)
 @Composable
 fun LoadingPreview() {
     Loading()
-}
-
-@Preview(showBackground = true)
-@Composable
-fun ErrorPreview() {
-    Error()
 }
 
 @Preview(showBackground = true)
@@ -266,5 +359,6 @@ fun FilledPreview() {
         ),
         onAmountSliderChanged = {},
         onDaysPeriodSliderChanged = {},
+        onApplyClick = {},
     )
 }
