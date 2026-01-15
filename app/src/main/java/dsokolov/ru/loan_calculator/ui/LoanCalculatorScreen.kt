@@ -179,6 +179,7 @@ private fun AmountBlock(
             style = MaterialTheme.typography.headlineLarge,
         )
     }
+
     Spacer(Modifier.height(GRID_1.dp))
 
     LoanCalculatorSlider(
@@ -232,7 +233,7 @@ private fun PeriodBlock(
             style = MaterialTheme.typography.headlineLarge,
         )
     }
-    Spacer(Modifier.height(GRID_4.dp))
+    Spacer(Modifier.height(GRID_1.dp))
 
     LoanCalculatorSlider(
         sliderValue = state.daysPeriod,

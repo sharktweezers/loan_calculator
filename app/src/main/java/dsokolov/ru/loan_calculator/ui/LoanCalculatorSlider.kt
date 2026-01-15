@@ -71,8 +71,14 @@ fun LoanCalculatorSlider(
                 Box(
                     modifier = Modifier
                         .layout { measurable, constraints ->
-                            val pxOffset = (constraints.maxWidth * progress).toInt()
-                            val desiredWidth = constraints.maxWidth - pxOffset + SLIDER_TRACK_HEIGHT.dp.roundToPx()
+                            val leftWidth = constraints.maxWidth - (constraints.maxWidth * progress)
+                            val maxOffset = offset.dp.roundToPx()
+                            val edgeDelta = min(
+                                (constraints.maxWidth - (leftWidth + maxOffset)).toInt(),
+                                0,
+                            )
+                            val pxOffset = (constraints.maxWidth - leftWidth).toInt() //if (edgeDelta < 0) -edgeDelta else maxOffset
+                            val desiredWidth = constraints.maxWidth - pxOffset + maxOffset - edgeDelta
                             val desiredHeight = SLIDER_TRACK_HEIGHT.dp.roundToPx()
 
                             val placeable = measurable.measure(
