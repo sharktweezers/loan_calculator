@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
 import dsokolov.ru.loan_calculator.ui.theme.SLIDER_THUMB_SIZE
 import dsokolov.ru.loan_calculator.ui.theme.SLIDER_TRACK_HEIGHT
+import kotlin.math.min
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,13 +45,13 @@ fun LoanCalculatorSlider(
         },
         thumb = {
             Box(
-                Modifier
+                modifier = Modifier
                     .size(SLIDER_THUMB_SIZE.dp)
                     .clip(CircleShape)
                     .drawBehind {
                         drawCircle(
                             brush = Brush.radialGradient(
-                                colors = listOf(colorLight, colorDeep, colorDeep, colorLight)
+                                colors = listOf(colorLight, colorDeep, colorDeep, colorDeep, colorLight)
                             )
                         )
                     },
@@ -92,14 +93,21 @@ fun LoanCalculatorSlider(
                 Box(
                     modifier = Modifier
                         .layout { measurable, constraints ->
-                            val pxOffset = offset.dp.roundToPx()
-                            val desiredWidth = (constraints.maxWidth * progress) + pxOffset
+                            val progressWidth = constraints.maxWidth * progress
+                            val maxOffset = offset.dp.roundToPx()
+                            val edgeDelta = min(
+                                (constraints.maxWidth - (progressWidth + maxOffset)).toInt(),
+                                0,
+                            )
+                            val pxOffset = maxOffset + edgeDelta
+                            val desiredWidthSuffix = maxOffset - edgeDelta
+                            val desiredWidth = (progressWidth).toInt() + desiredWidthSuffix
                             val desiredHeight = SLIDER_TRACK_HEIGHT.dp.roundToPx()
 
                             val placeable = measurable.measure(
                                 constraints.copy(
-                                    minWidth = desiredWidth.toInt(),
-                                    maxWidth = desiredWidth.toInt(),
+                                    minWidth = desiredWidth,
+                                    maxWidth = desiredWidth,
                                     minHeight = desiredHeight,
                                     maxHeight = desiredHeight,
                                 )

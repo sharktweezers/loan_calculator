@@ -1,5 +1,6 @@
 package dsokolov.ru.loan_calculator.ui.theme
 
+const val GRID_HALF = 4
 const val GRID_1 = 8
 
 const val GRID_1_5 = 12

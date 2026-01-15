@@ -44,6 +44,7 @@ import dsokolov.ru.loan_calculator.ui.theme.GRID_2
 import dsokolov.ru.loan_calculator.ui.theme.GRID_4
 import dsokolov.ru.loan_calculator.ui.theme.GRID_6
 import dsokolov.ru.loan_calculator.ui.theme.GRID_8
+import dsokolov.ru.loan_calculator.ui.theme.GRID_HALF
 import dsokolov.ru.loan_calculator.ui.theme.LimeDeep
 import dsokolov.ru.loan_calculator.ui.theme.LimeLight
 import dsokolov.ru.loan_calculator.ui.theme.OrangeDeep
@@ -182,12 +183,14 @@ private fun AmountBlock(
 
     LoanCalculatorSlider(
         sliderValue = state.amount,
-        steps = state.maxRangeAmount - state.minRangeAmount,
+        steps = state.maxRangeAmount - state.minRangeAmount - 2,
         valueRange = state.minRangeAmount.toFloat()..state.maxRangeAmount.toFloat(),
         onValueChanged = onAmountSliderChanged,
         colorLight = LimeLight,
         colorDeep = LimeDeep,
     )
+
+    Spacer(Modifier.height(GRID_HALF.dp))
 
     Row(
         Modifier.fillMaxWidth(),
@@ -233,12 +236,14 @@ private fun PeriodBlock(
 
     LoanCalculatorSlider(
         sliderValue = state.daysPeriod,
-        state.stepCountDaysPeriod - 2,
+        steps = state.stepCountDaysPeriod - 2,
         valueRange = state.minRangeDaysPeriod.toFloat()..state.maxRangeDaysPeriod.toFloat(),
         onValueChanged = onDaysPeriodSliderChanged,
         colorLight = OrangeLime,
         colorDeep = OrangeDeep,
     )
+
+    Spacer(Modifier.height(GRID_HALF.dp))
 
     Row(
         Modifier.fillMaxWidth(),
