@@ -19,3 +19,7 @@ val subtitleGrayColor = Color(0xFF8C8C8C)
 val backgroundDark = Color(0xFF121212)
 val mainTitleColorDark = Color(0xFFEAEAEA)
 val subtitleGrayColorDark = Color(0xFFD1D1D1)
+
+// Sliders
+val LimeLight = Color(0xFFD5FA55)
+val LimeDeep = Color(0xFF8EB70D)

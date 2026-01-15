@@ -11,3 +11,7 @@ const val GRID_4 = 32
 const val GRID_6 = 48
 
 const val GRID_8 = 64
+
+const val SLIDER_THUMB_SIZE = 48
+
+const val SLIDER_TRACK_WIDTH = 20
