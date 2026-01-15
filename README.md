@@ -24,3 +24,14 @@ compileOption и возможно поправить пути local.properties
 
 3 Используемый стек технологий:
 Dagger2, flow, compose, mvi, multi-modules, retrofit, Jetpack(view model)
+
+4 Скриншоты:
+ - в фолдере screenshots находятся скриншоты для тёмной и светлой тем в основных состояниях
+
+5 apk:
+ - в фолдере debug_apk лежит последний собранный debug apk файл
+
+6 github:
+https://github.com/sharktweezers/loan_calculator
+git clone https://github.com/sharktweezers/loan_calculator.git
+
