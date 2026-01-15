@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -60,20 +59,40 @@ fun LoanCalculatorSlider(
         track = { sliderState ->
             val offset = SLIDER_THUMB_SIZE / 2
             val progressSize = sliderState.value - sliderState.valueRange.start
-            val trackSize = sliderState.valueRange.endInclusive - sliderState.valueRange.start
-            val progress = progressSize / trackSize
+            val totalTrackSize = sliderState.valueRange.endInclusive - sliderState.valueRange.start
+            val progress = progressSize / totalTrackSize
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(offset.dp)
                     .height(SLIDER_TRACK_HEIGHT.dp)
-                    .background(Color.Gray, RoundedCornerShape(100))
             ) {
                 Box(
                     modifier = Modifier
                         .layout { measurable, constraints ->
-                            val pxOffset = ((offset * 2).dp).roundToPx()
+                            val pxOffset = (constraints.maxWidth * progress).toInt()
+                            val desiredWidth = constraints.maxWidth - pxOffset + SLIDER_TRACK_HEIGHT.dp.roundToPx()
+                            val desiredHeight = SLIDER_TRACK_HEIGHT.dp.roundToPx()
+
+                            val placeable = measurable.measure(
+                                constraints.copy(
+                                    minWidth = desiredWidth,
+                                    maxWidth = desiredWidth,
+                                    minHeight = desiredHeight,
+                                    maxHeight = desiredHeight,
+                                )
+                            )
+
+                            layout(placeable.width, placeable.height) {
+                                placeable.place(pxOffset, 0)
+                            }
+                        }
+                        .background(Color.Gray, RoundedCornerShape(100))
+                )
+                Box(
+                    modifier = Modifier
+                        .layout { measurable, constraints ->
+                            val pxOffset = offset.dp.roundToPx()
                             val desiredWidth = (constraints.maxWidth * progress) + pxOffset
                             val desiredHeight = SLIDER_TRACK_HEIGHT.dp.roundToPx()
 
@@ -87,7 +106,7 @@ fun LoanCalculatorSlider(
                             )
 
                             layout(placeable.width, placeable.height) {
-                                placeable.place(-pxOffset,0)
+                                placeable.place(-pxOffset, 0)
                             }
                         }
                         .background(

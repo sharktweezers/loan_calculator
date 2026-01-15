@@ -1,6 +1,8 @@
 package dsokolov.ru.loan_calculator.ui
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.material3.ripple
+import androidx.compose.runtime.remember
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -134,6 +138,11 @@ private fun FilledScreen(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Button(
+                modifier = Modifier.clickable(
+                    onClick = {},
+                    indication = ripple(bounded = true),
+                    interactionSource = remember { MutableInteractionSource() },
+                ),
                 onClick = { onApplyClick.invoke() },
                 shape = RoundedCornerShape(GRID_1_5.dp)
             ) {
@@ -321,6 +330,8 @@ private fun Error(error: String?) {
                 color = Color.Red,
             )
         }
+
+        Spacer(Modifier.height(GRID_4.dp))
     }
 }
 
