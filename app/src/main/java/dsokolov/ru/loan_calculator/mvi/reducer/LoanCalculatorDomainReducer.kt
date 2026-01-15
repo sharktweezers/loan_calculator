@@ -52,6 +52,10 @@ class LoanCalculatorDomainReducer() : ReducerDsl<DomainEvent, State, SideEffect,
         val filledState = state as? State.FilledLoanCalculatorState ?: return nothing()
         updateState { filledState.copy(transaction = event.transaction) }
 
+        if (event.transaction is LoanCalculatorTransaction.Success) {
+            sideEffect { SideEffect.SuccessTransaction }
+        }
+
         return buildUpdate(filledState)
     }
 }

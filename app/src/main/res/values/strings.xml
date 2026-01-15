@@ -9,4 +9,5 @@
     <string name="loan_calculator_loan_repayment_date_title">Repayment date</string>
     <string name="loan_calculator_loan_apply">Apply</string>
     <string name="loan_calculator_error_apply">Incorrect sum or period was input</string>
+    <string name="loan_calculator_success_apply">Order was applied on the server</string>
 </resources>

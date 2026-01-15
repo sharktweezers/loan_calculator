@@ -11,6 +11,7 @@ import dsokolov.ru.loan_calculator.mvi.handler.LoanCalculatorCommandHandler
 import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorDomainReducer
 import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorReducer
 import dsokolov.ru.loan_calculator.mvi.reducer.LoanCalculatorUiReducer
+import dsokolov.ru.loan_calculator.mvi.side_effect.LoanCalculatorUiSideEffectMapper
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorStateTransformer
 
 @Module
@@ -54,6 +55,13 @@ class CalculatorModule {
     fun provideLoanCalculationStateTransformer(
         stringProvider: StringProvider
     ) = LoanCalculatorStateTransformer(
+        stringProvider,
+    )
+
+    @Provides
+    fun provideLoanCalculatorUiSideEffectMapper(
+        stringProvider: StringProvider
+    ) = LoanCalculatorUiSideEffectMapper(
         stringProvider,
     )
 }

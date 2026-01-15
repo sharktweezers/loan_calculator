@@ -1,6 +1,6 @@
 package dsokolov.ru.loan_calculator.ui
 
-import androidx.compose.foundation.background
+import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,28 +9,21 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -38,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
 import dsokolov.ru.loan_calculator.injector.viewmodel.ViewModelFactoryHolder
+import dsokolov.ru.loan_calculator.presentation.LoanCalculatorUiSideEffect
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorUiState
 import dsokolov.ru.loan_calculator.presentation.LoanCalculatorViewModel
 import dsokolov.ru.loan_calculator.ui.theme.GRID_1
@@ -48,8 +42,8 @@ import dsokolov.ru.loan_calculator.ui.theme.GRID_6
 import dsokolov.ru.loan_calculator.ui.theme.GRID_8
 import dsokolov.ru.loan_calculator.ui.theme.LimeDeep
 import dsokolov.ru.loan_calculator.ui.theme.LimeLight
-import dsokolov.ru.loan_calculator.ui.theme.SLIDER_THUMB_SIZE
-import dsokolov.ru.loan_calculator.ui.theme.SLIDER_TRACK_WIDTH
+import dsokolov.ru.loan_calculator.ui.theme.OrangeDeep
+import dsokolov.ru.loan_calculator.ui.theme.OrangeLime
 
 @Composable
 fun LoanCalculatorScreen(
@@ -67,6 +61,17 @@ fun LoanCalculatorScreen(
             onDaysPeriodSliderChanged = loanCalculatorViewModel::onDaysPeriodSliderChanged,
             onApplyClick = loanCalculatorViewModel::onApplyClick,
         )
+    }
+
+    val ctx = LocalContext.current
+    LaunchedEffect(Unit) {
+        loanCalculatorViewModel.sideEffectFlow.collect { event ->
+            when (event) {
+                is LoanCalculatorUiSideEffect.SuccessTransaction -> {
+                    Toast.makeText(ctx, event.msg, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 }
 
@@ -166,56 +171,15 @@ private fun AmountBlock(
     }
     Spacer(Modifier.height(GRID_1.dp))
 
-    var sliderValue by remember { mutableFloatStateOf(state.amount.toFloat()) }
-    Slider(
-        value = sliderValue,
-        onValueChange = {
-            sliderValue = it
-            onAmountSliderChanged.invoke(sliderValue)
-        },
-        thumb = {
-            Box(
-                Modifier
-                    .size(SLIDER_THUMB_SIZE.dp)
-                    .clip(CircleShape)
-                    .drawBehind {
-                        drawCircle(
-                            brush = Brush.radialGradient(
-                                colors = listOf(LimeLight, LimeDeep, LimeDeep, LimeLight)
-                            )
-                        )
-                    },
-            )
-        },
-        track = { sliderState ->
-            val progress = (sliderState.value - sliderState.valueRange.start) /
-                    (sliderState.valueRange.endInclusive - sliderState.valueRange.start)
-            val offset = SLIDER_THUMB_SIZE / 2
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(offset.dp)
-                    .height(SLIDER_TRACK_WIDTH.dp)
-                    .background(Color.Gray, RoundedCornerShape(100))
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(progress)
-                        .offset(-(offset * 2).dp)
-                        .height(SLIDER_TRACK_WIDTH.dp)
-                        .background(
-                            brush = Brush.linearGradient(
-                                colors = listOf(LimeDeep, LimeLight)
-                            ),
-                            shape = RoundedCornerShape(100)
-                        )
-                )
-            }
-        },
+    LoanCalculatorSlider(
+        sliderValue = state.amount,
         steps = state.maxRangeAmount - state.minRangeAmount,
         valueRange = state.minRangeAmount.toFloat()..state.maxRangeAmount.toFloat(),
+        onValueChanged = onAmountSliderChanged,
+        colorLight = LimeLight,
+        colorDeep = LimeDeep,
     )
+
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -258,16 +222,15 @@ private fun PeriodBlock(
     }
     Spacer(Modifier.height(GRID_4.dp))
 
-    var sliderValue by remember { mutableFloatStateOf(state.daysPeriod.toFloat()) }
-    Slider(
-        value = sliderValue,
-        onValueChange = {
-            sliderValue = it
-            onDaysPeriodSliderChanged.invoke(sliderValue)
-        },
-        steps = state.stepCountDaysPeriod - 2,
+    LoanCalculatorSlider(
+        sliderValue = state.daysPeriod,
+        state.stepCountDaysPeriod - 2,
         valueRange = state.minRangeDaysPeriod.toFloat()..state.maxRangeDaysPeriod.toFloat(),
+        onValueChanged = onDaysPeriodSliderChanged,
+        colorLight = OrangeLime,
+        colorDeep = OrangeDeep,
     )
+
     Row(
         Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,

@@ -9,4 +9,5 @@
     <string name="loan_calculator_loan_repayment_date_title">Дата возврата</string>
     <string name="loan_calculator_loan_apply">Подать заявку</string>
     <string name="loan_calculator_error_apply">Были введены невалидная сумма и / или период</string>
+    <string name="loan_calculator_success_apply">Заявка размещена на сервере</string>
 </resources>
