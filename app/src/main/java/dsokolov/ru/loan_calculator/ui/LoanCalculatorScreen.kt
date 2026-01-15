@@ -19,6 +19,9 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -151,9 +154,14 @@ private fun AmountBlock(
         )
     }
     Spacer(Modifier.height(GRID_1.dp))
+
+    var sliderValue by remember { mutableFloatStateOf(state.amount.toFloat()) }
     Slider(
-        value = state.amount.toFloat(),
-        onValueChange = { onAmountSliderChanged.invoke(it) },
+        value = sliderValue,
+        onValueChange = {
+            sliderValue = it
+            onAmountSliderChanged.invoke(sliderValue)
+        },
         steps = state.maxRangeAmount - state.minRangeAmount,
         valueRange = state.minRangeAmount.toFloat()..state.maxRangeAmount.toFloat(),
     )
@@ -198,10 +206,15 @@ private fun PeriodBlock(
         )
     }
     Spacer(Modifier.height(GRID_4.dp))
+
+    var sliderValue by remember { mutableFloatStateOf(state.daysPeriod.toFloat()) }
     Slider(
-        value = state.daysPeriod.toFloat(),
-        onValueChange = { onDaysPeriodSliderChanged.invoke(it) },
-        steps = 2,//state.stepCountDaysPeriod,
+        value = sliderValue,
+        onValueChange = {
+            sliderValue = it
+            onDaysPeriodSliderChanged.invoke(sliderValue)
+        },
+        steps = state.stepCountDaysPeriod - 2,
         valueRange = state.minRangeDaysPeriod.toFloat()..state.maxRangeDaysPeriod.toFloat(),
     )
     Row(

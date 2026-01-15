@@ -2,10 +2,12 @@ package dsokolov.ru.loan_calculator.presentation
 
 import androidx.lifecycle.viewModelScope
 import dsokolov.ru.loan_calculator.core.ext.throttleFirst
+import dsokolov.ru.loan_calculator.core.ext.throttleLatest
 import dsokolov.ru.loan_calculator.mvi.event.LoanCalculatorEvent
 import dsokolov.ru.loan_calculator.mvi.factory.LoanCalculatorStoreFactory
 import dsokolov.ru.loan_calculator.mvi_core.BaseMviViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,6 +18,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class LoanCalculatorViewModel @Inject constructor(
     storeFactory: LoanCalculatorStoreFactory,
     stateTransformer: LoanCalculatorStateTransformer,
@@ -26,8 +29,8 @@ class LoanCalculatorViewModel @Inject constructor(
     val stateFlow = _stateFlow.asStateFlow()
 
     private val uiEvent = MutableSharedFlow<LoanCalculatorEvent>()
-
-    private val uiThrottledEvent = MutableSharedFlow<LoanCalculatorEvent>()
+    private val uiThrottledFirstEvent = MutableSharedFlow<LoanCalculatorEvent>()
+    private val uiThrottledLatestEvent = MutableSharedFlow<LoanCalculatorEvent>()
 
     init {
         val mviStore = storeFactory.createStore()
@@ -43,7 +46,8 @@ class LoanCalculatorViewModel @Inject constructor(
 
         val uiEvents = merge(
             uiEvent,
-            uiThrottledEvent.throttleFirst(),
+            uiThrottledFirstEvent.throttleFirst(),
+            uiThrottledLatestEvent.throttleLatest(250L)
         )
 
         uiEvents.onEach(mviStore::onEvent)
@@ -52,7 +56,7 @@ class LoanCalculatorViewModel @Inject constructor(
     }
 
     fun onAmountSliderChanged(value: Float) = launchUnit {
-        uiEvent.emit(LoanCalculatorEvent.LoanCalculatorEventUi.AmountChanged(value))
+        uiThrottledLatestEvent.emit(LoanCalculatorEvent.LoanCalculatorEventUi.AmountChanged(value))
     }
 
     fun onDaysPeriodSliderChanged(value: Float) = launchUnit {
@@ -60,6 +64,6 @@ class LoanCalculatorViewModel @Inject constructor(
     }
 
     fun onApplyClick() = launchUnit {
-        uiThrottledEvent.emit(LoanCalculatorEvent.LoanCalculatorEventUi.Apply)
+        uiThrottledLatestEvent.emit(LoanCalculatorEvent.LoanCalculatorEventUi.Apply)
     }
 }
