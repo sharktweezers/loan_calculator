@@ -183,6 +183,7 @@ private fun AmountBlock(
     Spacer(Modifier.height(GRID_1.dp))
 
     LoanCalculatorSlider(
+        transaction = state.transaction,
         sliderValue = state.amount,
         steps = state.maxRangeAmount - state.minRangeAmount - 2,
         valueRange = state.minRangeAmount.toFloat()..state.maxRangeAmount.toFloat(),
@@ -236,6 +237,7 @@ private fun PeriodBlock(
     Spacer(Modifier.height(GRID_1.dp))
 
     LoanCalculatorSlider(
+        transaction = state.transaction,
         sliderValue = state.daysPeriod,
         steps = state.stepCountDaysPeriod - 2,
         valueRange = state.minRangeDaysPeriod.toFloat()..state.maxRangeDaysPeriod.toFloat(),

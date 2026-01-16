@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.dp
+import dsokolov.ru.loan_calculator.core.domain.models.LoanCalculatorTransaction
 import dsokolov.ru.loan_calculator.ui.theme.SLIDER_THUMB_SIZE
 import dsokolov.ru.loan_calculator.ui.theme.SLIDER_TRACK_HEIGHT
 import kotlin.math.min
@@ -28,6 +29,7 @@ import kotlin.math.min
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoanCalculatorSlider(
+    transaction: LoanCalculatorTransaction,
     sliderValue: Int,
     steps: Int,
     valueRange: ClosedFloatingPointRange<Float>,
@@ -40,8 +42,10 @@ fun LoanCalculatorSlider(
         modifier = Modifier.height(SLIDER_THUMB_SIZE.dp),
         value = sliderValue,
         onValueChange = {
-            sliderValue = it
-            onValueChanged.invoke(sliderValue)
+            if (transaction !is LoanCalculatorTransaction.Loading) {
+                sliderValue = it
+                onValueChanged.invoke(sliderValue)
+            }
         },
         thumb = {
             Box(
