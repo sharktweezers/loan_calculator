@@ -33,5 +33,14 @@ Dagger2, flow, compose, mvi, multi-modules, retrofit, Jetpack(view model)
 
 6 github:
 https://github.com/sharktweezers/loan_calculator
-git clone https://github.com/sharktweezers/loan_calculator.git
+
+7 Скриншоты:
+![тёмная тема загрузка](screenshots/dark/loading_transaction.png)
+![тёмная тема ошибка](screenshots/dark/error_transaction.png)
+![тёмная тема заявка успешно размещена](screenshots/dark/success_transaction.png)
+![тёмная тема заявка недавние приложения](screenshots/dark/recently.png)
+![светлая тема загрузка](screenshots/light/loading_transaction.png)
+![светлая тема ошибка](screenshots/light/error_transaction.png)
+![светлая тема заявка успешно размещена](screenshots/light/success_transaction.png)
+![светлая тема заявка недавние приложения](screenshots/light/recently.png)
 

@@ -35,10 +35,10 @@ class LoanCalculatorMapper @Inject constructor() {
 
     companion object {
         const val MIN_RANGE_AMOUNT = 5000
-        const val MIN_RANGE_DAYS_PERIOD = 0
+        const val MIN_RANGE_DAYS_PERIOD = 7
         internal const val MAX_RANGE_AMOUNT = 50000
         internal const val MAX_RANGE_DAYS_PERIOD = 28
-        internal const val STEP_COUNT_DAYS_PERIOD = 5
+        internal const val STEP_COUNT_DAYS_PERIOD = 4
         internal const val INTEREST_RATE = 15.0
     }
 }
